@@ -1,0 +1,125 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Inter, Roboto, Arial, sans-serif;
+  margin: 0;
+  background: #f9f9f9;
+  color: #111;
+}
+header {
+  background: linear-gradient(90deg, #ff7043, #ff8a65);
+  color: white;
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+nav a {
+  color: white;
+  margin-left: 0.9rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+.container {
+  max-width: 1000px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+.search {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+.search input {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #e6e6e9;
+}
+.search button {
+  background: #ff7043;
+  color: white;
+  border: none;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0.7rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.card h3 {
+  margin: 0.5rem 0;
+}
+.card p {
+  color: #6b7280;
+  margin: 0.2rem 0;
+}
+.card a {
+  display: inline-block;
+  margin-top: 0.6rem;
+  text-decoration: none;
+  color: #ff7043;
+  font-weight: 700;
+}
+.detail {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.detail-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.ingredients {
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+.instructions {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+footer {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #6b7280;
+  background: transparent;
+}
+@media (max-width: 720px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  header {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+}

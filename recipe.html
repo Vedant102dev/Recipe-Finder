@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Recipe - Recipe Blog</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>🍽️ Recipe Details</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+
+    <main id="recipe-detail" class="container">
+      <p id="loading">Loading recipe…</p>
+    </main>
+
+    <footer>© 2025 Recipe Blog</footer>
+    <script>
+      function qs(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+      }
+      const id = qs("id");
+      const container = document.getElementById("recipe-detail");
+      const loading = document.getElementById("loading");
+
+      if (!id) {
+        loading.textContent =
+          "No recipe id provided. Go back to the homepage and click a recipe.";
+      } else {
+        fetch(
+          "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" +
+            encodeURIComponent(id)
+        )
+          .then((r) => r.json())
+          .then((data) => {
+            const meal = data.meals && data.meals[0];
+            if (!meal) {
+              loading.textContent = "Recipe not found.";
+              return;
+            }
+            const ingredients = [];
+            for (let i = 1; i <= 20; i++) {
+              const ing = meal["strIngredient" + i];
+              const measure = meal["strMeasure" + i];
+              if (ing && ing.trim()) {
+                ingredients.push((measure ? measure + " " : "") + ing);
+              }
+            }
+            container.innerHTML = `
+            <article class="detail">
+              <h2>${escapeHtml(meal.strMeal)}</h2>
+              <div class="detail-grid">
+                <img src="${meal.strMealThumb}" alt="${escapeHtml(
+              meal.strMeal
+            )}" />
+                <div>
+                  <p><strong>Category:</strong> ${escapeHtml(
+                    meal.strCategory || ""
+                  )}</p>
+                  <p><strong>Area:</strong> ${escapeHtml(
+                    meal.strArea || ""
+                  )}</p>
+                  <p><strong>Tags:</strong> ${escapeHtml(
+                    meal.strTags || ""
+                  )}</p>
+                  <h3>Ingredients</h3>
+                  <ul class="ingredients">${ingredients
+                    .map((i) => "<li>" + escapeHtml(i) + "</li>")
+                    .join("")}</ul>
+                  ${
+                    meal.strSource
+                      ? '<p><a href="' +
+                        meal.strSource +
+                        '" target="_blank">Source</a></p>'
+                      : ""
+                  }
+                </div>
+              </div>
+              <h3>Instructions</h3>
+              <p class="instructions">${escapeHtml(
+                meal.strInstructions || ""
+              )}</p>
+            </article>
+          `;
+          })
+          .catch((err) => {
+            console.error(err);
+            loading.textContent =
+              "Failed to load recipe. Please try again later.";
+          });
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+    </script>
+  </body>
+</html>
